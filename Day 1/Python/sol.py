@@ -8,9 +8,24 @@ data = [x for x in open("Day 1/data.txt", "r").read().split("\n")]
 
 ##### Problem 1 #####
 
-print("Problem 1:", NOT_IMPLEMENTED)
+count = 0
+max_ = 0
+for item in data:
+    if len(item) == 0:
+        max_ = max(max_, count)
+        count = 0
+    else:
+        count += int(item)
+print("Problem 1:", max_)
 
 
 ##### Problem 2 #####
 
-print("Problem 2:", NOT_IMPLEMENTED)
+calcount = [0]
+for item in data:
+    if len(item) == 0:
+        calcount.append(0)
+    else:
+        calcount[-1] += int(item)
+
+print("Problem 2:", sum(sorted(calcount, reverse=True)[:3]))
