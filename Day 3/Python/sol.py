@@ -7,30 +7,10 @@ NOT_IMPLEMENTED = "Not Yet Implemented"
 data = [x for x in open("Day 3/data.txt", "r").read().split("\n")]
 
 ##### Problem 5 #####
-sum_ = 0
-for line in data:
-    c1, c2 = line[:len(line) // 2], line[len(line) // 2:]
-    for char in c1:
-        if char in c2:
-            if char == char.lower():
-                sum_ += ord(char) - ord('a') + 1
-            else:
-                sum_ += ord(char) - ord('A') + 27
-            break
-
-print("Problem 5:", sum_)
-
+x = [set(l[:len(l)//2]).intersection(set(l[len(l)//2:])) for l in data]
+y = lambda x: sum(ord(c.lower()) - ord('a') + (27 if c.isupper() else 1) for (c,) in x)
+print("Problem 5:", y(x))
 
 ##### Problem 6 #####
-sum_ = 0
-for i in range(0, len(data), 3):
-    group_data = data[i:i+3]
-    for char in group_data[0]:
-        if char in group_data[1] and char in group_data[2]:
-            if char == char.lower():
-                sum_ += ord(char) - ord('a') + 1
-            else:
-                sum_ += ord(char) - ord('A') + 27
-            break
-
-print("Problem 6:", sum_)
+x = [set(data[i]).intersection(data[i+1]).intersection(data[i+2]) for i in range(0, len(data), 3)]
+print("Problem 6:", y(x))
