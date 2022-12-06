@@ -8,12 +8,9 @@ data = [x for x in open("Day 6/data.txt", "r").read().split("\n")][0]
 
 ##### Problem 11 #####
 def f(n):
-    prev = data[:(n-1)]
-    for i, char in enumerate(data[(n-1):]):
-        if char not in prev and len(set(list(prev))) == (n-1):
-            y = i + n
-            return y
-        prev = prev[1:] + char
+    for i in range(0,len(data)-n+1):
+        if len(set(data[i:i+n])) == n:
+            return i+n-1
 
 print("Problem 11:", f(4))
 
