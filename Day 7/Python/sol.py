@@ -19,7 +19,6 @@ def add_dir(parent_, newdir):
     filesize[newdir] = 0
 
 for line in data:
-    print(curdir)
     if line == "$ cd ..":
         curdir = parent[curdir]
     elif line == "$ cd /":
@@ -49,10 +48,10 @@ for line in data:
                 adddir = "/".join(dirs[:i])
                 filesize[adddir] += size
 
-result = sum([size for _, size in filesize.items() if size < 100000])
+result = sum([size for size in filesize.values() if size < 100000])
 print("Problem 13:", result)
 
 ##### Problem 14 ######
-to_save = 30000000 - 70000000 + filesize["/"]
-result = min([size for _, size in filesize.items() if size > to_save])
+to_save = -40000000 + filesize["/"]
+result = min([size for size in filesize.values() if size > to_save])
 print("Problem 14:", result)
