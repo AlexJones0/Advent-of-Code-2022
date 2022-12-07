@@ -8,19 +8,18 @@ data = [x.strip() for x in open("Day 7/data.txt", "r").read().split("\n")]
 
 ##### Problem 13 #####
 dirtree = {"/": []}
-parent = {"/": "/"}
 filesize = {"/": 0}
 curdir = "/"
 
 def add_dir(parent_, newdir):
     dirtree[parent_].append(newdir)
     dirtree[newdir] = []
-    parent[newdir] = parent_
     filesize[newdir] = 0
 
 for line in data:
     if line == "$ cd ..":
-        curdir = parent[curdir]
+        curdir = "/".join(curdir.split("/")[:-1])
+        curdir = "/" if len(curdir) == 0 else curdir
     elif line == "$ cd /":
         curdir = "/"
     elif line.startswith("$ cd "):
