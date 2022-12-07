@@ -4,10 +4,10 @@ Solution to day 5 problems (9 & 10) for Advent of Code 2022, solved in python.
 """
 
 NOT_IMPLEMENTED = "Not Yet Implemented"
-d = [x for x in open("Day 5/data.txt", "r").read().split("\n")]
+data = [x for x in open("Day 5/data.txt", "r").read().split("\n")]
 
 ##### Problem 9 #####
-a, b = d[:d.index("")], [x.split(" ") for x in d[d.index("")+1:]]
+a, b = data[:data.index("")], [x.split(" ") for x in data[data.index("")+1:]]
 s = [[] for _ in range(int(a[-1].split("   ")[-1].strip()))]
 for l in a[-2::-1]:
     for i in range(0, len(l), 4):
