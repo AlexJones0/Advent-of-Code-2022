@@ -6,7 +6,7 @@ Solution to day 9 problems (17 & 18) for Advent of Code 2022, solved in python.
 NOT_IMPLEMENTED = "Not Yet Implemented"
 data = [x.strip() for x in open("Day 9/data.txt", "r").read().split("\n") if len(x.strip()) > 0]
 
-##### Problem 17 #####
+##### Visualisation #####
 def print_board(h, t, ts=[]):
     print(h, ts)
     pos_list = list(visited)
@@ -23,7 +23,7 @@ def print_board(h, t, ts=[]):
         for i in range(min_h, max_h+1):
             if (i, j) == h:
                 line += "H"
-            elif (i, j) == t and t is not None:
+            elif (i, j) == t:
                 line += "T"
             elif (i, j) in ts:
                 line += str(ts.index((i,j)) + 1)
@@ -35,67 +35,53 @@ def print_board(h, t, ts=[]):
                 line += "."
         print(line)
     print("")
-                
+    input()
 
-visited = set()
+##### Problem 17 #####      
 VISUALISE = False
+visited = set([(0, 0)])
 dirs = {"U": (0, 1), "D": (0, -1), "L": (-1, 0), "R": (1, 0)}
-headpos = (0, 0)
-tailpos = (0, 0)
-visited.add(tailpos)
+headpos, tailpos = (0, 0), (0, 0)
 if VISUALISE:
     print_board(headpos, tailpos)
-    input()
 for rule in data:
     movev = dirs[rule[0]]
-    moves = int(rule[2:])
-    for i in range(moves):
+    for i in range(int(rule[2:])):
         headpos = (headpos[0] + movev[0], headpos[1] + movev[1])
         diff = (headpos[0] - tailpos[0], headpos[1] - tailpos[1])
         if abs(diff[0]) > 1 and abs(diff[0]) >= abs(diff[1]):
-            tailpos = (tailpos[0] + movev[0], 
-                       tailpos[1] + (diff[1] if abs(diff[1]) > 0 else 0))
+            tailpos = (tailpos[0] + movev[0], tailpos[1] + (diff[1] if abs(diff[1]) > 0 else 0))
         elif abs(diff[1]) > 1:
-            tailpos = (tailpos[0] + (diff[0] if abs(diff[0]) > 0 else 0), 
-                       tailpos[1] + movev[1])
+            tailpos = (tailpos[0] + (diff[0] if abs(diff[0]) > 0 else 0),  tailpos[1] + movev[1])
         if VISUALISE:
             print_board(headpos, tailpos)
-            input()
         visited.add(tailpos)  
 
 print("Problem 17:", len(visited))
 
 ##### Problem 18 ######
-visited = set()
 VISUALISE = False
+visited = set([(0, 0)])
 dirs = {"U": (0, 1), "D": (0, -1), "L": (-1, 0), "R": (1, 0)}
-headpos = (0, 0)
-tails = [(0, 0) for i in range(9)]
-visited.add((0,0))
+headpos, tails = (0, 0), [(0, 0) for i in range(9)]
 if VISUALISE:
     print_board(headpos, None, ts=tails)
     input()
 for rule in data:
     movev = dirs[rule[0]]
-    moves = int(rule[2:])
-    for i in range(moves):
+    for i in range(int(rule[2:])):
         headpos = (headpos[0] + movev[0], headpos[1] + movev[1])
-        poss = [headpos] + tails
-        for i in range(len(poss)-1):
-            h, t = poss[i], poss[i+1]
+        for i in range(len(tails)):
+            h, t = tails[i-1] if i != 0 else headpos, tails[i]
             diff = (h[0] - t[0], h[1] - t[1])
             if abs(diff[0]) > 1 and abs(diff[0]) >= abs(diff[1]):
-                tails[i] = (t[0] + (1 if diff[0] >= 0 else -1), 
-                            t[1] + ((1 if diff[1] >= 0 else -1) if abs(diff[1]) > 0 else 0))
+                tails[i] = (t[0] + diff[0]//abs(diff[0]), t[1] + (diff[1]//abs(diff[1]) if diff[1] != 0 else 0))
             elif abs(diff[1]) > 1:
-                tails[i] = (t[0] + ((1 if diff[0] >= 0 else -1) if abs(diff[0]) > 0 else 0), 
-                            t[1] + (1 if diff[1] >= 0 else -1))
+                tails[i] = (t[0] + (diff[0]//abs(diff[0]) if diff[0] != 0 else 0), t[1] + diff[1]//abs(diff[1]))
             else:
                 break
-            poss[i+1] = tails[i]
         if VISUALISE:
             print_board(headpos, None, ts=tails)
-            input()
         visited.add(tails[-1])
 
 print("Problem 18:", len(visited))
