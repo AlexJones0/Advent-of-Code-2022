@@ -36,7 +36,7 @@ print("Problem 21:", simulate_rounds(20, get_monkey_info(data), 3))
 
 ##### Problem 22 ######
 monkeys = get_monkey_info(data)
-modval = 1
+modval = 1  # was going to replace this with math.lcm but the number turns out the same
 for monkey in monkeys:
     modval *= monkey["test"]
 print("Problem 22:", simulate_rounds(10000, monkeys, 1, modval=modval))
