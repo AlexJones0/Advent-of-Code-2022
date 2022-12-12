@@ -7,7 +7,6 @@ NOT_IMPLEMENTED = "Not Yet Implemented"
 data = [x for x in open("Day 12/data.txt", "r").read().split("\n")]
 
 ##### Problem 23 #####
-
 def parse(data):
     elevs = []
     start, end = None, None
@@ -44,7 +43,6 @@ def bfs(elevs, start, goals, bfsrule):
 print("Problem 23:", bfs(*parse(data), bfsrule = lambda x, y: x <= (y+1)))
 
 ##### Problem 24 ######
-
 def parse2(data):
     elevs, _, goals = parse(data)
     endset = set(list((i, j) for i, row in enumerate(elevs) for j, e in enumerate(row) if e == 0))
