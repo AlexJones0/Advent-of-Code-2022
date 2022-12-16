@@ -10,7 +10,7 @@ data = [x for x in open("Day 16/data.txt", "r").read().split("\n")]
 valves = {x.split(" ")[1]: (   
             int(x.split("=")[1].split(";")[0]),
             [x.split(",")[0].split(" ")[-1]] + [y.strip() for y in x.split(",")[1:]]
-          ) for x in data}
+        ) for x in data}
 
 # Perform BFS from each meaningful node to simplify the graph, storing 
 # distances between each node. This will facilitate memoisation later
@@ -87,14 +87,16 @@ def add_other_subsets(subset):
             max_pressure = max(max_pressure, add_other_subsets(smaller_set))
         subset_vals[subset_key] = max_pressure
     return subset_vals[subset_key]
-add_other_subsets(key_valves.difference({'AA'}))
 
+other = key_valves.difference({'AA'})
+complements = dict([(x, other.difference(set(x))) for x in subset_vals.keys()])
+for elephant_valves in complements.values():
+    add_other_subsets(elephant_valves)
 max_pressure = 0
-for cur_valves in subset_vals:
+for cur_valves, elephant_valves in complements.items():
     # Assign the elephant the complement - even if they can't get every other valve,
     # the memoisation will account for this - subset_vals[elephant_valves] will just
     # be the maximum that they could open from 'AA' in 26 minutes.
-    elephant_valves = key_valves.difference({'AA'}).difference(set(cur_valves))
     elephant_valves = tuple(sorted(elephant_valves))
     max_pressure = max(max_pressure, subset_vals[cur_valves] + subset_vals[elephant_valves])
 
