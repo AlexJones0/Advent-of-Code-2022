@@ -8,25 +8,20 @@ data = set([tuple([int(n) for n in x.strip().split(",")]) for x in open("Day 18/
 
 ##### Problem 35 #####
 dirs = [(-1, 0, 0), (1, 0, 0), (0, -1, 0), (0, 1, 0), (0, 0, -1), (0, 0, 1)]
-vec_sum = lambda xs, ys: (xs[0]+ys[0], xs[1]+ys[1], xs[2] + ys[2])
-get_sa = lambda xs, ys, f: len([1 for c in xs for d in ys if f(vec_sum(c,d))])
+vec_sum = lambda xs, ys: tuple([sum(x) for x in zip(xs,ys)])
+print("Problem 35:", len([1 for c in data for d in dirs if vec_sum(c,d) not in data]))
 
-print("Problem 35:", get_sa(data, dirs, lambda pos: pos not in data))
-
-##### Problem 36 ######
-# Find dimensions of bounding box for cubes, and FLOOD_FILL from a corner
+##### Problem 36 ######s
 end = (max([x[0] for x in data]) + 1, max([y[1] for y in data]) + 1, max([z[2] for z in data]) + 1)
 start = (min([x[0] for x in data]) - 1, min([y[1] for y in data]) - 1, min([z[2] for z in data]) - 1)
-vec_in_range = lambda xs, low, high: all([low[i] <= xs[i] <= high[i] for i in range(0,3)])
-frontier, explored = [start], set([start])
-while len(frontier) > 0:
-    new_frontier = []
-    for cube in frontier:
-        for dir in dirs:
-            check = vec_sum(cube, dir)
-            if vec_in_range(check, start, end) and check not in explored and check not in data:
-                new_frontier.append(check)
-                explored.add(check)
-    frontier = new_frontier
-# Count only faces that touch flooded air blocks
-print("Problem 36:", get_sa(data, dirs, lambda pos: pos in explored))
+frontier, new_frontier, explored, sa = [start], [], set([start]), 0
+while len(frontier) > 0: # Flood fill in bounding box to find SA
+    for (cube, dir) in ((c, d) for c in frontier for d in dirs):
+        check = vec_sum(cube, dir)
+        if all([start[i] <= check[i] <= end[i] for i in range(0,3)]) and check not in explored:
+            if check in data:
+                sa += 1; continue
+            new_frontier.append(check)
+            explored.add(check)
+    frontier, new_frontier = new_frontier, []
+print("Problem 36:", sa)
