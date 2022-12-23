@@ -73,10 +73,10 @@ def solve(board, width, height, desc, pos, dir_, wrapfunc):
 print("Problem 43:", passwd(*solve(board, width, height, desc, pos, dir_, wrap)))
 
 ##### Problem 44 ######
-# General solution - first parse cube dimensions via. GCD on dimensions and whitespace parsing
-from math import gcd
-cube_dim = gcd(height, width)
-cube_dim = min([cube_dim] + [len(row) - len(row.strip()) for row in board if len(row.strip()) != len(row)])  # Not 100% correct but correct enough for most cases
+# General solution - first parse cube dimensions by counting grid tiles, dividing by 6
+# (to get the number of tiles in one face) and square rooting (to get a side length).
+from math import sqrt
+cube_dim = int(sqrt(sum([len([c for c in row if c != ' ']) for row in board]) // 6))
 
 # Next form a simple map of links between cube faces from the net, using cardinal net links only.
 # This is a map of net_map[(fx, fy)][dir_from] = ((nx, ny), dir_to)
