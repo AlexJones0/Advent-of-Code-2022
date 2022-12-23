@@ -63,7 +63,7 @@ void problem12(char *file) {
 }
 
 int main() {
-    char* file = read_input("./Day 6/data.txt"); 
+    char* file = read_input("./Day 06/data.txt"); 
     char* copy = strdup(file);
     problem11(file);
     problem22(copy);

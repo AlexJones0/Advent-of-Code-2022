@@ -4,7 +4,7 @@ Solution to day 6 problems (11 & 12) for Advent of Code 2022, solved in python.
 """
 
 NOT_IMPLEMENTED = "Not Yet Implemented"
-data = [x for x in open("Day 6/data.txt", "r").read().split("\n")][0]
+data = [x for x in open("Day 06/data.txt", "r").read().split("\n")][0]
 
 ##### Problem 11 #####
 def f(n):

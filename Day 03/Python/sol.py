@@ -4,7 +4,7 @@ Solution to day 3 problems (5 & 6) for Advent of Code 2022, solved in python.
 """
 
 NOT_IMPLEMENTED = "Not Yet Implemented"
-data = [x for x in open("Day 3/data.txt", "r").read().split("\n")]
+data = [x for x in open("Day 03/data.txt", "r").read().split("\n")]
 
 ##### Problem 5 #####
 x = [set(l[:len(l)//2]).intersection(set(l[len(l)//2:])) for l in data]

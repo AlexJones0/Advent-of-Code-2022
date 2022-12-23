@@ -4,7 +4,7 @@ Solution to day 8 problems (15 & 16) for Advent of Code 2022, solved in python.
 """
 
 NOT_IMPLEMENTED = "Not Yet Implemented"
-data = [x.strip() for x in open("Day 8/data.txt", "r").read().split("\n")]
+data = [x.strip() for x in open("Day 08/data.txt", "r").read().split("\n")]
 
 ##### Problem 15 #####
 usedpos = set()

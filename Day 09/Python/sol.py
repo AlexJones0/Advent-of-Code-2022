@@ -4,7 +4,7 @@ Solution to day 9 problems (17 & 18) for Advent of Code 2022, solved in python.
 """
 
 NOT_IMPLEMENTED = "Not Yet Implemented"
-data = [x.strip() for x in open("Day 9/data.txt", "r").read().split("\n") if len(x.strip()) > 0]
+data = [x.strip() for x in open("Day 09/data.txt", "r").read().split("\n") if len(x.strip()) > 0]
 
 ##### Visualisation #####
 def print_board(h, t, ts=[]):
