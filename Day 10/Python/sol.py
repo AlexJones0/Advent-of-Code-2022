@@ -41,6 +41,26 @@ while data_index < data_len:
         if inst.startswith("addx"):
             cur_op = inst
     cycle += 1
-# TODO could hard-encode all possible character arts here, but this
-# can just be read manually for now ^^
-print("Problem 20:\n" + "\n".join("".join(row) for row in screen))
+
+# Automatic reading of characters to retrieve the answer
+chars = {
+    ".##.#..##..######..##..#": "A",
+    ".##.#..##...#...#..#.##.": "C",
+    "#####...###.#...#...####": "E",
+    "###.#..####.#..##..####.": "B",
+    "#####...###.#...#...#...": "F",
+    ".##.#..##...#.###..#.###": "G",
+    "#..##..######..##..##..#": "H",
+    ".###..#...#...#...#..###": "I",
+    "..##...#...#...##..#.##.": "J",
+    "#..##.#.##..#.#.#.#.#..#": "K",
+    "#...#...#...#...#...####": "L",
+    ".##.#..##..##..##..#.##.": "O",
+    "###.#..##..####.#...#...": "P",
+    "###.#..##..####.#.#.#..#": "R",
+    ".####...#....##....####.": "S",
+    "#..##..##..##..##..#.##.": "U",
+    "#...#....#.#..#...#...#.": "Y",
+    "####...#..#..#..#...####": "Z",
+}
+print("Problem 20:", "".join([chars["".join(["".join(row[i:i+4]) for row in screen])] for i in range(0, 40, 5)]))
