@@ -62,31 +62,25 @@ def simulate(elves, rounds=None):
         round += 1
         if VISUALISE: display(elves, i)
         # First half of round - all elves proposed moves based on rules
-        proposed, moved = {}, False
+        proposed = {}
         for elf in elves:
             if are_empty(adjacent(elf), elves):
-                propose_move(elf, elf, proposed)
                 continue
-            did_propose = False
             for rule in rotate(rules, (round-1) % len(rules)):
                 if are_empty(get_poss(elf, rule[0]), elves):
                     propose_move(elf, get_pos(elf, rule[1]), proposed)
-                    did_propose = moved = True
+                    moved = True
                     break
-            if not did_propose:
-                propose_move(elf, elf, proposed)
-        if not moved:  # No elves moved - return if this is the goal, or stop simulating (optimisation)
-            if rounds == None:
-                return round
-            break
         # Second half of round - move if only elf to propose moving there
-        elves = set()
+        moved = False
         for move, moving in proposed.items():
             if len(moving) == 1:
+                elves.remove(moving[0])
                 elves.add(move)
-            else:
-                for elf in moving:
-                    elves.add(elf)
+                moved = True
+        if not moved: # No elves moved - return if this is the goal, or stop simulating (optimisation)
+            if rounds == None: return round
+            break
     # Find bounding rectangle box for elves, and return its area minus the number of elves in it
     elf = list(elves)[0]
     min_y, max_y, min_x, max_x = elf[0], elf[0], elf[1], elf[1]
@@ -101,7 +95,7 @@ for i, row in enumerate(data):
     for j, char in enumerate(row):
         if char == "#":
             elves.add((i, j))
-print("Problem 45:", simulate(elves, 10))
+print("Problem 45:", simulate(elves.copy(), 10))
 
 ##### Problem 46 ######
 print("Problem 46:", simulate(elves))
