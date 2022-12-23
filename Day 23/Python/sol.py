@@ -104,5 +104,4 @@ for i, row in enumerate(data):
 print("Problem 45:", simulate(elves, 10))
 
 ##### Problem 46 ######
-# Simulate infinitely until the round that all elves stop on is reported
 print("Problem 46:", simulate(elves))
