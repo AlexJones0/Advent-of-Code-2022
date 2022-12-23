@@ -40,13 +40,6 @@ get_poss = lambda x, ds: [get_pos(x, d) for d in ds]
 adjacent = lambda x: get_poss(x, directions.keys())
 rotate = lambda xs, n: xs[n:] + xs[:n]
 
-def propose_move(elf, move, proposed):
-    # Proposes a move by an elf, adding it to the list of elves proposing thatm ove if already proposed.
-    if move not in proposed:
-        proposed[move] = [elf]
-    else:
-        proposed[move].append(elf)
-
 def simulate(elves, rounds=None):
     # This function simulates the elves, with two purposes. Either (a) it is given a number of
     # rounds along with the elves, at which point it simulates that number of rounds and returns
@@ -68,18 +61,19 @@ def simulate(elves, rounds=None):
                 continue
             for rule in rotate(rules, (round-1) % len(rules)):
                 if are_empty(get_poss(elf, rule[0]), elves):
-                    propose_move(elf, get_pos(elf, rule[1]), proposed)
-                    moved = True
+                    move = get_pos(elf, rule[1])
+                    if move not in proposed:
+                        proposed[move] = elf
+                    else:
+                        del proposed[move]
                     break
         # Second half of round - move if only elf to propose moving there
-        moved = False
         for move, moving in proposed.items():
-            if len(moving) == 1:
-                elves.remove(moving[0])
-                elves.add(move)
-                moved = True
-        if not moved: # No elves moved - return if this is the goal, or stop simulating (optimisation)
-            if rounds == None: return round
+            elves.remove(moving)
+            elves.add(move)
+        if len(proposed) == 0: # No elves moved - return if this is the goal, or stop simulating (optimisation)
+            if rounds == None: 
+                return round
             break
     # Find bounding rectangle box for elves, and return its area minus the number of elves in it
     elf = list(elves)[0]
