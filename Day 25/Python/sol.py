@@ -7,40 +7,12 @@ NOT_IMPLEMENTED = "Not Yet Implemented"
 data = [x for x in open("Day 25/data.txt", "r").read().split("\n")]        
 
 ##### Problem 49 #####
-encodings = {'2': 2, '1': 1, '0': 0, '-': -1, '=': -2}
-
-def get_decimal(word):
-    total = 0
-    for char in word:
-        total = total * 5 + encodings[char]
-    return total
-
-def get_snafu(word):
-    snafu = ""
-    next = None
-    while word > 0:
-        next = word % 5
-        word = word // 5
-        if next <= 2:
-            snafu += str(next)
-        elif next == 3:
-            snafu += "="
-            word += 1
-        elif next == 4:
-            snafu += "-"
-            word += 1
-    return snafu[::-1]
-            
-
-sum_ = 0
-for word in data:
-    total = 0
-    for char in word:
-        total = total * 5 + encodings[char]
-    sum_ += total
-            
-print("Problem 49:", get_snafu(sum_))
+# Horrible and janky left folding using summation and exponentiation
+sum_, snafu = sum([sum([(['=','-','0','1','2'].index(item[len(item)-1-i]) - 2) * 5**i for i in range(len(item))]) for item in data]), ""
+while sum_ > 0:
+    snafu += ['0','1','2','=','-'][sum_ % 5]
+    sum_ = sum_ // 5 + (1 if (sum_ % 5) > 2 else 0)
+print("Problem 49:", snafu[::-1])
 
 ##### Problem 50 ######
-
 print("Problem 50:", "Freebie :)")
